@@ -56,6 +56,7 @@ function ListaProdutos({ produtos, deletarProduto, iniciarEdicao }) {
                   className="btn-excluir"
                 >
                   <Trash size={16} />
+                  
                 </button>
 
                 <button
