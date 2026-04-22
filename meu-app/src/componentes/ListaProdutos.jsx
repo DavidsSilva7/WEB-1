@@ -1,72 +1,78 @@
+import {Pencil,Trash} from "lucide-react";
 function ListaProdutos({ produtos, deletarProduto, iniciarEdicao }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden mt-6">
+    <div className="tabela-container">
 
-      <table className="w-full text-left">
+      <table>
 
-        <thead className="bg-slate-50 text-slate-500 text-sm uppercase">
+        <thead>
           <tr>
-            <th className="p-4">Produto</th>
-            <th className="p-4">Preço Unitário</th>
-            <th className="p-4">Estoque</th>
-            <th className="p-4">Status</th>
-            <th className="p-4 text-right">Ações</th>
+            <th>Produto</th>
+            <th>Preço Unitário</th>
+            <th>Estoque</th>
+            <th>Status</th>
+            <th className="acoes">Ações</th>
           </tr>
         </thead>
 
-        <tbody className="divide-y divide-slate-100">
-
+        <tbody>
           {produtos?.map((p) => (
-            <tr key={p.id} className="hover:bg-slate-50 transition">
+            <tr key={p.id}>
 
-              <td className="p-4 font-medium text-slate-700">
+              <td className="nome-produto">
                 {p.nome}
               </td>
 
-              <td className="p-4 text-slate-600">
+              <td>
                 R$ {Number(p.preco).toFixed(2)}
               </td>
 
-              <td className={`p-4 font-semibold ${
-                p.estoque < 5 ? "text-orange-500" : "text-slate-600"
-              }`}>
+              <td className={p.estoque < 5 ? "estoque-baixo" : ""}>
                 {p.estoque} un.
               </td>
 
-              <td className="p-4">
-                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                  p.estoque < 5
-                    ? "bg-orange-100 text-orange-600"
-                    : "bg-green-100 text-green-600"
-                }`}>
-                  {p.estoque < 5 ? "Estoque Baixo" : "Em Estoque"}
+              <td>
+                <span
+                  className={
+                    p.estoque === 0
+                      ? "status-badge status-out"
+                      : p.estoque < 5
+                      ? "status-badge status-low"
+                      : "status-badge status-ok"
+                  }
+                >
+                  {p.estoque === 0 
+                  ? "Estoque Esgotado" 
+                  :p.estoque < 5 
+                  ? "Estoque Baixo" 
+                  : "Em Estoque"}
                 </span>
               </td>
 
-              <td className="p-4 text-right space-x-2">
+              <td className="acoes">
 
                 <button
                   onClick={() => deletarProduto(p.id)}
-                  className="px-3 py-1 text-sm bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                  className="btn-excluir"
                 >
-                  Excluir
+                  <Trash size={16} />
                 </button>
 
                 <button
                   onClick={() => iniciarEdicao(p.id)}
-                  className="px-3 py-1 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+                  className="btn-editar"
                 >
-                  Editar
+                  <Pencil size={16} />
                 </button>
 
               </td>
 
             </tr>
           ))}
-
         </tbody>
 
       </table>
+
     </div>
   );
 }

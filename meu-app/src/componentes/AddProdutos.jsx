@@ -22,7 +22,7 @@ function AddProduto({ addProduto, editarProduto, setEditarProduto }) {
     }
   }, [editarProduto]);
 
-  const handleImagem = (e) => {
+  const PdtImagem = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -31,10 +31,11 @@ function AddProduto({ addProduto, editarProduto, setEditarProduto }) {
       setImagem(reader.result);
       setPreview(reader.result);
     };
+
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e) => {
+  const Formulario = (e) => {
     e.preventDefault();
 
     addProduto({
@@ -59,31 +60,61 @@ function AddProduto({ addProduto, editarProduto, setEditarProduto }) {
   return (
     <div className="card">
 
-      <button onClick={() => setAberto(!aberto)}>
+      <button
+        onClick={() => setAberto(!aberto)}
+        className="btn-abrir-form"
+      >
         {aberto ? "Fechar formulário" : "Cadastrar novo produto"}
       </button>
 
       {aberto && (
-        <form onSubmit={handleSubmit} className="form">
+        <form onSubmit={Formulario} className="form">
 
-          <input placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
-          <input type="number" placeholder="Preço" value={preco} onChange={(e) => setPreco(e.target.value)} />
-          <input type="number" placeholder="Estoque" value={estoque} onChange={(e) => setEstoque(e.target.value)} />
+          <input
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
 
-          <select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
-            <option>eletrônicos</option>
-            <option>roupas</option>
-            <option>alimentos</option>
-            <option>outros</option>
+          <input
+            type="number"
+            placeholder="Preço"
+            value={preco}
+            onChange={(e) => setPreco(e.target.value)}
+          />
+
+          <input
+            type="number"
+            placeholder="Estoque"
+            value={estoque}
+            onChange={(e) => setEstoque(e.target.value)}
+          />
+
+          <select
+            value={categoria}
+            onChange={(e) => setCategoria(e.target.value)}
+          >
+            <option value="eletrônicos">Eletrônicos</option>
+            <option value="roupas">Roupas</option>
+            <option value="alimentos">Alimentos</option>
+            <option value="outros">Outros</option>
           </select>
 
-          <input type="file" accept="image/*" onChange={handleImagem} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={PdtImagem}
+          />
 
           {preview && (
-            <img src={preview} className="preview-img" />
+            <img
+              src={preview}
+              alt="preview"
+              className="preview-img"
+            />
           )}
 
-          <button type="submit">
+          <button type="submit" className="btn-submit">
             {editarProduto ? "Atualizar" : "Salvar"}
           </button>
 

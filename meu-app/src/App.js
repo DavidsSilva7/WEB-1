@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { LayoutDashboard, Package } from "lucide-react";
 import AddProduto from "./componentes/AddProdutos";
 import ListaProdutos from "./componentes/ListaProdutos";
 import Dashboard from "./componentes/Layout/Dashboard";
 import Sidebar from "./componentes/Layout/Sidebar";
 import Filtros from "./componentes/Filtros";
+import Configuracoes from "./componentes/Layout/Configurações";
+import Relatorios from "./componentes/Layout/Relatorios";
+import Sobre from "./componentes/Layout/Infor";
 
 
 function Sistema() {
@@ -20,26 +22,27 @@ function Sistema() {
     precoMin: "",
     precoMax: "",
   });
-
+  
   const [abaAtual, setAbaAtual] = useState("dashboard");
   const [editarProduto, setEditarProduto] = useState(null);
   const [notificacao, setNotificacao] = useState(null);
-
   const categorias = ["eletrônicos", "roupas", "alimentos", "outros"];
+  const [temaEscuro, setTemaEscuro] = useState(false);
+  const [corPrimaria, setCorPrimaria] = useState("#2563eb"); 
 
-  // NOTIFICAÇÃO
+  
   const mostrarNotificacao = (mensagem, tipo = "sucesso") => {
     setNotificacao({ mensagem, tipo });
     setTimeout(() => setNotificacao(null), 3000);
   };
 
-  // LOCALSTORAGE
+  
   useEffect(() => {
     localStorage.setItem("produtos", JSON.stringify(produtos));
   }, [produtos]);
 
-  // CREATE / UPDATE
-  const handleAdd = (produto) => {
+  
+  const CadastrarPdt = (produto) => {
     const existe = produtos.find((p) => p.id === produto.id);
 
     if (existe) {
@@ -65,35 +68,41 @@ function Sistema() {
     mostrarNotificacao("Produto cadastrado com sucesso!", "sucesso");
   };
 
-  // DELETE
+  
   const deletarProduto = (id) => {
     setProdutos(produtos.filter((p) => p.id !== id));
     mostrarNotificacao("Produto removido!", "erro");
   };
 
-  // EDIT
+  
   const iniciarEdicao = (id) => {
     const produto = produtos.find((p) => p.id === id);
     setEditarProduto(produto);
     setAbaAtual("produtos");
   };
 
-  // FILTRO
+  useEffect(() => {
+    if (temaEscuro) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [temaEscuro]);
   const produtosFiltrados = produtos.filter((p) => {
-    const matchBusca = p.nome
+    const Busca = p.nome
       .toLowerCase()
       .includes(filtros.busca.toLowerCase());
 
-    const matchCategoria =
+    const Categoria =
       filtros.categoria === "todos" || p.categoria === filtros.categoria;
 
-    const matchMin =
+    const PrecoMin =
       !filtros.precoMin || Number(p.preco) >= Number(filtros.precoMin);
 
-    const matchMax =
+    const PrecoMax =
       !filtros.precoMax || Number(p.preco) <= Number(filtros.precoMax);
 
-    return matchBusca && matchCategoria && matchMin && matchMax;
+    return Busca && Categoria && PrecoMin && PrecoMax;
   });
 
   return (
@@ -101,6 +110,7 @@ function Sistema() {
 
 
       <Sidebar setAbaAtual={setAbaAtual} />
+      
 
       {notificacao && (
         <div className={`alerta toast ${notificacao.tipo}`}>
@@ -109,9 +119,23 @@ function Sistema() {
       )}
 
       <main className="content">
+        {abaAtual === "configuracoes" && <Configuracoes 
+
+          temaEscuro={temaEscuro}
+          setTemaEscuro={setTemaEscuro}
+          corPrimaria={corPrimaria}
+          setCorPrimaria={setCorPrimaria}
+
+        />}
+        {abaAtual === "sobre" && <Sobre />}
+        
 
         {abaAtual === "dashboard" && (
           <Dashboard produtos={produtos} />
+        )}
+
+        {abaAtual === "relatorios" && (
+          <Relatorios produtos={produtos} />
         )}
 
         {abaAtual === "produtos" && (
@@ -131,7 +155,7 @@ function Sistema() {
             </div>
 
             <AddProduto
-              addProduto={handleAdd}
+              addProduto={CadastrarPdt}
               editarProduto={editarProduto}
               setEditarProduto={setEditarProduto}
             />

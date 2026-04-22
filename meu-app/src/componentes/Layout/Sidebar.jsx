@@ -1,4 +1,5 @@
-import { LayoutDashboard, Package } from "lucide-react";
+import {LayoutDashboard, Package, Cog, FileChartLine, Info} from "lucide-react";
+
 import "../../App.css";
 
 function Sidebar({ setAbaAtual, abaAtual }) {
@@ -6,7 +7,7 @@ function Sidebar({ setAbaAtual, abaAtual }) {
     <div className="sidebar">
 
       <h2 className="logo">Gerenciador Pro</h2>
-      <p>Seu gerenciador de Produtos</p>
+      <p className="subtitle">Seu gerenciador de produtos</p>
 
       <button
         className={abaAtual === "dashboard" ? "ativo" : ""}
@@ -22,6 +23,30 @@ function Sidebar({ setAbaAtual, abaAtual }) {
       >
         <Package size={18} />
         <span>Produtos</span>
+      </button>
+
+      <button
+        className={abaAtual === "relatorios" ? "ativo" : ""}
+        onClick={() => setAbaAtual("relatorios")}
+      >
+        <FileChartLine size={18} />
+        <span>Relatórios</span>
+      </button>
+
+      <button
+        className={abaAtual === "configuracoes" ? "ativo" : ""}
+        onClick={() => setAbaAtual("configuracoes")}
+      >
+        <Cog size={18} />
+        <span>Configurações</span>
+      </button>
+
+      <button
+        className={abaAtual === "sobre" ? "ativo" : ""}
+        onClick={() => setAbaAtual("sobre")}
+      >
+        <Info size={18} />
+        <span>Sobre</span>
       </button>
 
     </div>
