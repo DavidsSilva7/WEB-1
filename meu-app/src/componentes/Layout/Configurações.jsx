@@ -1,8 +1,4 @@
-function Configuracoes({
-  temaEscuro,
-  setTemaEscuro,
-  corPrimaria,
-}) {
+function Configuracoes({temaEscuro, setTemaEscuro, corPrimaria,}) {
 
   const salvarConfig = () => {
     const config = {
