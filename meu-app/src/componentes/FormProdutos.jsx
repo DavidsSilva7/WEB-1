@@ -6,7 +6,7 @@ function AddProduto({ addProduto, editarProduto, setEditarProduto }) {
   const [nome, setNome] = useState("");
   const [preco, setPreco] = useState("");
   const [estoque, setEstoque] = useState("");
-  const [categoria, setCategoria] = useState("eletrônicos");
+  const [categoria, setCategoria] = useState("");
   const [imagem, setImagem] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -50,7 +50,7 @@ function AddProduto({ addProduto, editarProduto, setEditarProduto }) {
     setNome("");
     setPreco("");
     setEstoque("");
-    setCategoria("eletrônicos");
+    setCategoria("");
     setImagem(null);
     setPreview(null);
     setEditarProduto(null);
@@ -114,7 +114,7 @@ function AddProduto({ addProduto, editarProduto, setEditarProduto }) {
             />
           )}
 
-          <button type="submit" className="btn-submit">
+          <button type="submit" className="btn-imagem">
             {editarProduto ? "Atualizar" : "Salvar"}
           </button>
 

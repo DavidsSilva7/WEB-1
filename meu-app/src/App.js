@@ -25,6 +25,8 @@ function Sistema() {
   });
 
   const [abaAtual, setAbaAtual] = useState("dashboard");
+
+  
   const [editarProduto, setEditarProduto] = useState(null);
   const [notificacao, setNotificacao] = useState(null);
   const categorias = ["eletrônicos", "roupas", "alimentos", "outros"];
